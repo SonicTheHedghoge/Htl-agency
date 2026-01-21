@@ -8,68 +8,87 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <style>
       body {
         font-family: 'Montserrat', sans-serif;
         background-color: #020617; /* Slate 950 */
         color: #f8fafc; /* Slate 50 */
         margin: 0;
+        overflow-x: hidden;
       }
-      h1, h2, h3, h4, h5, h6, .font-serif {
+      h1, h2, h3, h4, h5, h6 {
         font-family: 'Playfair Display', serif;
       }
       .font-display {
         font-family: 'Cinzel', serif;
       }
+      .font-body {
+        font-family: 'Cormorant Garamond', serif;
+      }
+      
       /* Custom scrollbar */
       ::-webkit-scrollbar {
-        width: 6px;
+        width: 4px;
       }
       ::-webkit-scrollbar-track {
-        background: #0f172a; 
+        background: #020617; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #b45309; 
-        border-radius: 0px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
         background: #d97706; 
       }
       ::selection {
-        background: #b45309;
+        background: #d97706;
         color: #fff;
       }
-      /* Preloader Animation */
-      @keyframes pulse-gold {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.5; transform: scale(0.98); }
+
+      /* Preloader */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background-color: #020617;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
       }
-      .preloader-text {
-        animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      
+      @keyframes gold-shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      
+      .loading-text {
+        background: linear-gradient(90deg, #94a3b8 0%, #fcd34d 50%, #94a3b8 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gold-shimmer 3s linear infinite;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
-  }
-}
-</script>
-</head>
+    <!-- Keep importmap for local/webcontainer dev if needed, typically ignored by bundlers if configured correctly -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
+        "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+      }
+    }
+    </script>
+  </head>
   <body class="antialiased">
-    <div id="root" class="h-screen w-full flex items-center justify-center bg-slate-950">
-      <!-- Preloader Content -->
-      <div class="flex flex-col items-center">
-        <h1 class="text-4xl md:text-6xl font-display font-bold tracking-[0.2em] text-white preloader-text mb-4">
-          HTL
-        </h1>
-        <div class="h-[1px] w-24 bg-amber-500/50"></div>
-        <p class="mt-4 text-amber-500 text-xs uppercase tracking-[0.4em] animate-pulse">Loading Luxury</p>
+    <!-- Root container needs to be clean block level for React layout to work -->
+    <div id="root">
+      <div id="preloader">
+        <h1 class="text-6xl md:text-8xl font-display font-bold tracking-[0.2em] loading-text mb-4">HTL</h1>
+        <div class="h-[1px] w-32 bg-slate-800 relative overflow-hidden">
+            <div class="absolute inset-0 bg-amber-500 w-1/2 animate-[slide_1s_ease-in-out_infinite]"></div>
+        </div>
+        <p class="mt-4 text-slate-500 text-[10px] uppercase tracking-[0.5em]">Loading Excellence</p>
       </div>
     </div>
     <script type="module" src="./index.tsx"></script>
